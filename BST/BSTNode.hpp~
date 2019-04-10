@@ -28,9 +28,7 @@ class BSTNode {
 		 *  no parent, and no children.
 		 *  @param d The data to initialize the node with.
 		 */
-		BSTNode(const Data & d) : data(d) {
-		    parent = left = right = nullptr;	
-		}
+		BSTNode(const Data & d) : data(d) {}
 
 		BSTNode<Data>* left;
 		BSTNode<Data>* right;

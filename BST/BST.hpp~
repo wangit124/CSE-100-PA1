@@ -1,12 +1,10 @@
-/* Description: This is a program that allows you to efficiently search,
- * insert, delete, and find the height and size of a tree structure. The
- * tree automatically sorts what you insert into it so you can find
- * items easily later. 
+/* Description: This is a program that defines and implements
+ * methods used for binary search trees, including height, size
+ * insert, delete, find, first, etc.
  *
  * Name: Luhao Wang
- * Email: luw055@ucsd.edu
+ * Account: luw055
  * Date: April 10, 2019
- * Sources: Piazza
  */
 
 #ifndef BST_HPP
@@ -17,11 +15,6 @@
 using namespace std;
 
 template<typename Data>
-
-/* BST class defines and implements methods used for binary search trees, 
- * including height, size insert, delete, find, first, etc.
- */
-
 class BST {
 
    protected:
@@ -43,7 +36,7 @@ class BST {
       /** Default constructor.
         * Initialize an empty BST.
         */
-      BST() : root(0), isize(0), iheight(-1) {  }
+      BST() : root(0), isize(0), iheight(0) {  }
 
 
       /** Default destructor.
@@ -54,10 +47,13 @@ class BST {
       }
 
       /** Given a reference to a Data item, insert a copy of it in this BST.
-       *  @param item The reference to the data item to insert a copy of
-	   *  @return true if the item was added to this BST as a result of this 
-	   *  call to insert, false if an item equal to this one was already in 
-	   *  this BST.
+       *  Return  true if the item was added to this BST
+       *  as a result of this call to insert,
+       *  false if an item equal to this one was already in this BST.
+       *  Note: This function should use only the '<' operator when comparing
+       *  Data items. (should not use ==, >, <=, >=)  For the reasoning
+       *  behind this, see the assignment writeup.
+       *  TODO
        */
       virtual bool insert(const Data& item) {
          return false;
@@ -65,31 +61,36 @@ class BST {
 
 
       /** Find a Data item in the BST.
-       *  @param item The data item to search for 
-	   *  @return an iterator pointing to the item, or pointing past
+       *  Return an iterator pointing to the item, or pointing past
        *  the last node in the BST if not found.
+       *  Note: This function should use only the '<' operator when comparing
+       *  Data items. (should not use ==, >, <=, >=).  For the reasoning
+       *  behind this, see the assignment writeup.
+       *  TODO
        */
       virtual iterator find(const Data& item) const {
          return 0; 
       }
 
 
-      /** @return the number of items currently in the BST.
+      /** Return the number of items currently in the BST.
+       *  TODO 
        */
       unsigned int size() const {
          return 0;
       }
 
-      /** @return the height of the BST.
+      /** Return the height of the BST.
        * The height of an empty tree is -1 and the height of a tree
        * with only one node is 0.
+       *  TODO  
        */
       unsigned int height() const {
          return 0;
       }
 
 
-      /** @return true if the BST is empty, else false.
+      /** Return true if the BST is empty, else false.
        */
       bool empty() const {
          return isize == 0;
@@ -110,9 +111,7 @@ class BST {
 
 
       /** Inorder traverse BST, print out the data of each node in ascending 
-	   * order. 
-	   *
-	   * Implementing inorder and deleteAll base on the pseudo code is an
+	   * order. Implementing inorder and deleteAll base on the pseudo code is an
 	   * easy way to get started.
        * 
 	   * Pseudo Code:
@@ -120,7 +119,7 @@ class BST {
        * recursively traverse left sub-tree
        * print current node data
        * recursively traverse right sub-tree
-       * 
+       * TODO
        */
       void inorder() const {
       }
@@ -128,16 +127,15 @@ class BST {
 
    private:
 
-      /** Find the first element of the BST.
-	   * @param root The root of the BST to search
-	   * @return returns the node representing first element
+      /** Find the first element of the BST
+       *  TODO 
        */ 
       static BSTNode<Data>* first(BSTNode<Data>* root) {
          return 0;
       }
 
-      /** Do a postorder traversal, deleting nodes
-       *  @param n The current node
+      /** do a postorder traversal, deleting nodes
+       *   TODO 	
        */
       static void deleteAll(BSTNode<Data>* n) {
          /* Pseudo Code:
@@ -147,6 +145,7 @@ class BST {
             delete current node
             */
       }
+
 
 };
 
