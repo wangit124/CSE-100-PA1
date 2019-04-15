@@ -37,20 +37,17 @@ int main () {
     const int MAX = 100; // max value of random data
     const int NUM_INSERT = 30000; // number of random data to insert
     const int NUM_FIND = 30000; // number of random data to find
-    const int NUM_RUN = 10; // Number of tests to run
+    const int NUM_RUN = 10;
     
-	// Define insert and find arrays with random values
     vector<double> insertData = randNums(NUM_INSERT, MIN, MAX);
     vector<double> findData = randNums(NUM_FIND, MIN, MAX);
     
-	// Initialize bsa and bst
     BSA<double> bsa;
     BST<double> bst;
     
     cout << "Insert benchmarking for BSA and BST: " << endl;
     cout << "Number of data to insert: " << NUM_INSERT << endl;
     
-	// Compute runtime for bsa insert
     Timer t;
     long long sumTime = 0;
     long long averageTime = 0;
@@ -76,19 +73,18 @@ int main () {
     cout << "Average time taken to insert for BSA: " << averageTime
     << " nanoseconds" << endl;
     
-	// Compute runtime for bst insert
     sumTime = 0;
     averageTime = 0;
     
 	// Start timer
 	t.begin_timer();
 	
-	// Insert all the data from insertData into bst NUM_RUN times
+	// Insert all the data from insertData into bsa NUM_RUN times
 	for (int i=0; i<NUM_RUN; i++) {
 		for (unsigned int index=0; index<insertData.size(); index++) {
 			bst.insert(insertData[index]);
 		}
-		// clear bst
+		// clear bsa 
 		bst = BST<double>();
 	}
 	
@@ -107,14 +103,11 @@ int main () {
     cout << "Number of data in BSA/BST: " << NUM_INSERT << endl;
     cout << "Number of data to find: " << NUM_FIND << endl;
     
-	// Compute runtime for bsa find
     sumTime = 0;
     averageTime = 0; 
     
-	// First insert array into new bsa
-	bsa = BSA<double>();
 	for (unsigned int index=0; index<insertData.size(); index++) {
-		bsa.insert(insertData[index]);
+			bsa.insert(insertData[index]);
 	} 
 	
 	// Start timer
@@ -123,7 +116,7 @@ int main () {
 	// find all the data from findData NUM_RUN times
 	for (int i=0; i<NUM_RUN; i++) {
 		for (unsigned int index=0; index<findData.size(); index++) {
-			bsa.find(findData[index]);
+			bst.find(findData[index]);
 		}
 	}
 	
@@ -136,12 +129,9 @@ int main () {
     cout << "Average time taken to find for BSA: " << averageTime
     << " nanoseconds" << endl;
     
-	// Compute runtime for bst find
     sumTime = 0;
     averageTime = 0;
 
-	// First insert data into new bst
-	bst = BST<double>();
 	for (unsigned int index=0; index<insertData.size(); index++) {
 		bst.insert(insertData[index]);
 	}
@@ -149,7 +139,7 @@ int main () {
 	// Start timer
 	t.begin_timer();
 	
-	// Search in bst NUM_RUN times
+	// Insert all the data from insertData into bsa NUM_RUN times
 	for (int i=0; i<NUM_RUN; i++) {
 		for (unsigned int index=0; index<findData.size(); index++) {
 			bst.find(findData[index]);
