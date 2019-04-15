@@ -17,6 +17,7 @@
 using namespace std;
 
 template<typename Data>
+
 /* Iterator class defines methods to traverse, equate, and
  * dereference BST nodes. It also contains a pointer to the node
  * that it is currently on. 
@@ -25,7 +26,7 @@ template<typename Data>
 class BSTIterator : public iterator<input_iterator_tag,Data> {
 
    private:
-	  // The node this iterator is pointing to
+	  // The node this iterator is currently at
       BSTNode<Data>* curr;
 
    public:
@@ -65,19 +66,19 @@ class BSTIterator : public iterator<input_iterator_tag,Data> {
 	   */
 	  bool operator==(BSTIterator<Data> const & other) const {
 		 // Check if other equals this
-		 if (other == (*this)) 
+		 if (curr == other.curr) 
 			return true;
 
          return false;
       }
  
-      /** Equality test operator.
+      /** Inequality test operator.
 	   *  Checks if two iterators are pointing to the same node
 	   *  @returns true if they are NOT
 	   */
       bool operator!=(BSTIterator<Data> const & other) const {
 		 // Check if other equals this
-		 if (other == (*this))
+		 if (curr == other.curr)
 			return false;
 
          return true;

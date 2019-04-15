@@ -46,28 +46,40 @@ class BSTNode {
 		BSTNode<Data>* successor() {
 			// Make a traversal node
 			BSTNode<Data> * currNode = this;
+			
 			// Check right subtree
-			if (currNode->right)
+			if (currNode->right) {
+				
 				// go to right
 				currNode = currNode->right;
+				
 				// Return minimum node
 				while(currNode->left) {
 					currNode=currNode->left;
 				}
+				
 				return currNode;
-			else
+			}
+			else {
+				
 				// Loop through and find successor
 				while(currNode) {
+					
 					// Check if root, if so, return not found
-					if (currNode->parent == nullptr)
+					if (!(currNode->parent)) {
 						return 0;
+					}
 
 					BSTNode<Data> * currParent = currNode->parent;
-				    if (currNode == currParent->left)
+				    if (currNode == currParent->left) {
 						return currParent;
+					}
 				}
-		}
 
+				// If not found, return 0
+				return 0;
+			}
+		}
 }; 
 
 /** Overload operator<< to print a BSTNode's fields to an ostream. */

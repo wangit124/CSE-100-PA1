@@ -43,7 +43,7 @@ class BST {
       /** Default constructor.
         * Initialize an empty BST.
         */
-      BST() : root(0), isize(0), iheight(-1) {  }
+      BST() : root(0), isize(0), iheight(0) {  }
 
 
       /** Default destructor.
@@ -60,9 +60,64 @@ class BST {
 	   *  this BST.
        */
       virtual bool insert(const Data& item) {
-          
-		 return false;
-      }
+		 // Set current node to root, and store parent pointer
+		 BSTNode<Data> * curr = root;
+		 BSTNode<Data> * currParent;
+
+		 // Define height counter
+		 int heightCount = 0;
+
+		 // If root is null, insert new node
+		 if (!curr) {
+			// Create new node and insert at root
+			BSTNode<Data> * newRoot = new BSTNode<Data>(item);
+			root = newRoot;
+			
+			// update size and height
+			iheight = 0;
+			isize++;
+			return true;
+		 }
+
+         // Start from root and iterate
+		 while(curr) {
+		    // Compare insert with current
+		    if (item < (curr->data)) {
+				// If left, then go left and store parent
+				currParent = curr;
+				curr = curr->left;
+			}
+			else if((curr->data) < item) {
+				currParent = curr;
+				curr = curr->right;
+            }
+			// IF duplicate, return false
+			else {
+				return false;
+			}
+			// Increment height counter
+			heightCount++;
+		 }
+		
+		 // Create new node to insert
+		 BSTNode<Data> * newNode = new BSTNode<Data>(item);
+		
+		 
+		 // Confirm if left or right child insert
+		 if (item < (currParent -> data)) {
+			currParent -> left = newNode;
+			newNode -> parent = currParent;
+		 }
+		 else if ((currParent->data) < item) {
+			currParent -> right = newNode;
+			newNode -> parent = currParent;
+		 }
+	
+		 // Update size and height of tree
+		 iheight = heightCount;
+		 isize++;
+		 return true;
+	  }
 
 
       /** Find a Data item in the BST.
@@ -72,24 +127,20 @@ class BST {
        */
       virtual iterator find(const Data& item) const {
          // Get current node
-		 BSTNode<Data> * curr = this.root;
-		 while (curr != nullptr) {
-		     // Check if element is equal
-			 if (curr->data == item) {
-			     return BST::iterator(curr);
-			 }
-			 // Traverse left, right or back
-			 if (curr->left != nullptr) {
-			     curr = curr->left;
-				 continue;
-			 }
-			 if (curr->right != nullptr) {
-				 curr = curr->right;
-				 continue;
-			 }
-			 curr = curr->parent;
+		 BSTNode<Data> * curr = root;
+		 while (curr) {
+		    // Compare find with root
+		    if (item < (curr->data)) {
+                curr = curr->left;
+		    }
+			else if((curr->data) < item) {
+				curr = curr->right;
+			}
+			else {
+				return BST::iterator(curr);
+			}
 		 }
-		 return iterator.end(); 
+         return typename BST<Data>::iterator(0);
       }
 
 
@@ -106,7 +157,6 @@ class BST {
       unsigned int height() const {
          return iheight;
       }
-
 
       /** @return true if the BST is empty, else false.
        */
@@ -132,12 +182,12 @@ class BST {
 	   * order. 
        * @param n, The starting node to print in order 
        */
-      void inorder(BSTNode<Data> * n) const {
+      void inorder() const {
 		// Set current node
-		BSTNode<Data> * curr = n;
+		BSTNode<Data> * curr = root;
 
 		// if curr is null, return
-		if (curr == nullptr) 
+		if (!curr) 
 			return;
 		
 		// Traverse left subtree
@@ -145,11 +195,12 @@ class BST {
 			inorder(curr->left);
 		
         // Print data
-		cout << curr->data << endl;
+		cout << curr << endl;
 
 		// Traverse right subtree
 		if (curr->right)
 			inorder(curr->right);
+
       }
 
 
@@ -161,8 +212,13 @@ class BST {
        */ 
       static BSTNode<Data>* first(BSTNode<Data>* root) {
          // Get minimum element, AKA leftmost element
+		 if (!root) {
+			return root;
+		 }
+
+		 // Set curr to root and find minimum AKA leftmost node
 		 BSTNode<Data> * curr = root;
-		 while ((curr->left)!= nullptr) {
+		 while (curr->left) {
 		     curr = curr->left;
 		 }
 		 return curr;
@@ -176,7 +232,7 @@ class BST {
 		BSTNode<Data> * curr = n;
 
 		// if curr is null, return
-		if (curr == nullptr) 
+		if (!curr) 
 			return;
 		
 		// Traverse left subtree
