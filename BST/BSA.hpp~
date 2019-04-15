@@ -5,7 +5,6 @@
  * Name: Luhao Wang
  * Account: luw055
  * Date: April 10, 2019
- * Source: Piazza
  */
 
 #ifndef BSA_HPP
@@ -36,22 +35,7 @@ class BSA {
 		/** Return the position of item, otherwise v.cend() */
 		virtual typename vector<Data>::const_iterator find(const Data& item) 
 													const {
-			// Search correct index for item
-			int index = binarySearch(item);
-				
-			// If item exists, return iterator
-			if (v[index] == item) {
-				
-				// Create an iterator pointing to first element
-				vector<Data>::const_iterator itr = v.cbegin();
-
-				// Advance to index
-				advance(itr, index);
-
-				return itr;
-			}
-			
-			// If not found, return cend
+			//TODO
 			return v.cend();
 		}
 
@@ -60,21 +44,8 @@ class BSA {
 			// Search correct index for item
 			int index = binarySearch(item);
 			
-			// If item already exists, return false
-			if (v[index] == item) {
-				return false;
-			}
-
-			// Create a new iterator for v
-			vector<Data>::const_iterator itr = v.cbegin();
-
-			// Traverse to correct index
-			advance(itr, index);
 			
-			// Insert item in vector
-			v.insert(itr, item);
-			
-			return true;
+			return false;
 		}
 
 		typename vector<Data>::iterator begin() const {
