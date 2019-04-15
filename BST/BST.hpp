@@ -91,7 +91,7 @@ class BST {
 				currParent = curr;
 				curr = curr->right;
             }
-			// IF duplicate, return false
+			// If duplicate, return false
 			else {
 				return false;
 			}
@@ -101,8 +101,7 @@ class BST {
 		
 		 // Create new node to insert
 		 BSTNode<Data> * newNode = new BSTNode<Data>(item);
-		
-		 
+			 
 		 // Confirm if left or right child insert
 		 if (item < (currParent -> data)) {
 			currParent -> left = newNode;
@@ -114,7 +113,9 @@ class BST {
 		 }
 	
 		 // Update size and height of tree
-		 iheight = heightCount;
+		 if (heightCount > iheight) {
+			iheight = heightCount;
+		 }
 		 isize++;
 		 return true;
 	  }

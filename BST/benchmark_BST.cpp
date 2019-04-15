@@ -1,3 +1,13 @@
+/* Description: This is a program that can be used to test the runtime
+ * of different insertion, sort-and-search methods including BST and BSA.
+ * It prints out the average time taken for each operation for each 
+ * method.
+ *
+ * Name: Luhao Wang
+ * Account: luw055
+ * Date: April 15, 2019
+ * Source: Piazza
+ */
 
 #include <iostream>
 #include "BSA.hpp"
@@ -19,8 +29,10 @@ vector<double> randNums(unsigned int size, int min, int max) {
     return result;
 }
 
+/* Method to compute the total and average runtimes of insert and find for 
+ * BST, and BSA. Prints out this comparison*/
+
 int main () {
-    // TODO: value to change to do benchmarking
     const int MIN = 0; // min value of random data
     const int MAX = 100; // max value of random data
     const int NUM_INSERT = 30000; // number of random data to insert
@@ -39,17 +51,45 @@ int main () {
     Timer t;
     long long sumTime = 0;
     long long averageTime = 0;
-    
-    // TODO
-    
+	 
+	// Start timer
+	t.begin_timer();
+	
+	// Insert all the data from insertData into bsa NUM_RUN times
+	for (int i=0; i<NUM_RUN; i++) {
+		for (unsigned int index=0; index<insertData.size(); index++) {
+			bsa.insert(insertData[index]);
+		}
+	}
+	
+	// End timer
+	sumTime = t.end_timer();
+
+	// Compute average time
+	averageTime = sumTime/NUM_RUN;
+
     cout << "Average time taken to insert for BSA: " << averageTime
     << " milliseconds" << endl;
     
     sumTime = 0;
     averageTime = 0;
     
-    // TODO
-    
+	// Start timer
+	t.begin_timer();
+	
+	// Insert all the data from insertData into bsa NUM_RUN times
+	for (int i=0; i<NUM_RUN; i++) {
+		for (unsigned int index=0; index<insertData.size(); index++) {
+			bst.insert(insertData[index]);
+		}
+	}
+	
+	// End timer
+	sumTime = t.end_timer();
+
+	// Compute average time
+	averageTime = sumTime/NUM_RUN;
+ 
     cout << "Average time taken to insert for BST: " << averageTime
     << " milliseconds" << endl;
     

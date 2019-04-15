@@ -28,8 +28,25 @@ class BSA {
 		 * or else find where it should be inserted.
 		 */
 		virtual size_t binarySearch(const Data& item) const {
-			
-			return 0;
+			// Get low and high of vector
+			int lowInd = 0;
+			int highInd = v.size()-1;
+			int middle = 0;
+
+			// Get mid value and narrow down array by half
+			while (lowInd <= highInd) {
+				// Halve the array each time and search subarray
+				middle = ((highInd - lowInd)/2)+lowInd;
+				// Return index if found
+				if (item < v[middle])
+					highInd = middle - 1;
+				else if (v[middle] < item)
+					lowInd = middle + 1;
+				else
+					return middle;
+			}
+			// Return where the element should be if not found
+			return lowInd;
 		}
 
 	public:
@@ -40,10 +57,13 @@ class BSA {
 			int index = binarySearch(item);
 				
 			// If item exists, return iterator
-			if (v[index] == item) {
-				
+			if (v[index] < item) {
+			}
+			else if (item < v[index]) {
+			}
+			else {
 				// Create an iterator pointing to first element
-				vector<Data>::const_iterator itr = v.cbegin();
+				typename vector<Data>::const_iterator itr = v.cbegin();
 
 				// Advance to index
 				advance(itr, index);
@@ -54,20 +74,32 @@ class BSA {
 			// If not found, return cend
 			return v.cend();
 		}
-
+		/* Helper Method to return v
+		virtual vector<Data> getV() {
+			return v;
+		}*/
 		/** Insert item into sorted position */
 		virtual bool insert(const Data& item) {
-			// Search correct index for item
-			int index = binarySearch(item);
-			
-			// If item already exists, return false
-			if (v[index] == item) {
-				return false;
+			// If array is empty, simply push to array
+			if (!v.size()) {
+			    v.push_back(item);
+				return true;
 			}
 
-			// Create a new iterator for v
-			vector<Data>::const_iterator itr = v.cbegin();
+			// Search correct index for item
+			int index = binarySearch(item);
 
+			// Create a new iterator for v
+			typename vector<Data>::iterator itr = v.begin();
+			
+			// If item already exists, return false
+			if (v[index] < item) {
+			}
+			else if (item < v[index]) {
+			}
+			else {
+				return false;
+			}
 			// Traverse to correct index
 			advance(itr, index);
 			
