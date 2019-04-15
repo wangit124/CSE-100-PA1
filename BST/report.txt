@@ -12,20 +12,18 @@
 	
 	Insert benchmarking for BSA and BST: 
 	Number of data to insert: 30000
-	Average time taken to insert for BSA: 97709162
-	nanoseconds
-	Average time taken to insert for BST: 11785986
-	nanoseconds
+	Average time taken to insert for BSA: 21530515 nanoseconds
+	Average time taken to insert for BST: 11442917 nanoseconds
 
 	Find benchmarking for BSA and BST: 
 	Number of data in BSA/BST: 30000
 	Number of data to find: 30000
-	Average time taken to find for BSA: 11681576
-	nanoseconds
-	Average time taken to find for BST: 10182272
-	nanoseconds
+	Average time taken to find for BSA: 12900631 nanoseconds
+	Average time taken to find for BST: 12167227 nanoseconds
 
-1. Overall, BST was much faster to insert() because it
+----QUESTIONS------
+
+1. Overall, BST was faster to insert() because it
    doesn't require traversing and inserting the element
    then resizing the entire array.
 

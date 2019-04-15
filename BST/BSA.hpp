@@ -74,10 +74,7 @@ class BSA {
 			// If not found, return cend
 			return v.cend();
 		}
-		/* Helper Method to return v
-		virtual vector<Data> getV() {
-			return v;
-		}*/
+		
 		/** Insert item into sorted position */
 		virtual bool insert(const Data& item) {
 			// If array is empty, simply push to array

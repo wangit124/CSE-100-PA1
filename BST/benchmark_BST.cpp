@@ -63,8 +63,6 @@ int main () {
 		for (unsigned int index=0; index<insertData.size(); index++) {
 			bsa.insert(insertData[index]);
 		}
-		// clear bsa 
-		bsa = BSA<double>();
 	}
 	
 	// End timer
@@ -88,8 +86,6 @@ int main () {
 		for (unsigned int index=0; index<insertData.size(); index++) {
 			bst.insert(insertData[index]);
 		}
-		// clear bst
-		bst = BST<double>();
 	}
 	
 	// End timer
@@ -102,7 +98,7 @@ int main () {
     << " nanoseconds" << endl;
     
     cout << endl; // new line
-    
+
     cout << "Find benchmarking for BSA and BST: " << endl;
     cout << "Number of data in BSA/BST: " << NUM_INSERT << endl;
     cout << "Number of data to find: " << NUM_FIND << endl;
@@ -111,12 +107,6 @@ int main () {
     sumTime = 0;
     averageTime = 0; 
     
-	// First insert array into new bsa
-	bsa = BSA<double>();
-	for (unsigned int index=0; index<insertData.size(); index++) {
-		bsa.insert(insertData[index]);
-	} 
-	
 	// Start timer
 	t.begin_timer();
 	
@@ -140,12 +130,6 @@ int main () {
     sumTime = 0;
     averageTime = 0;
 
-	// First insert data into new bst
-	bst = BST<double>();
-	for (unsigned int index=0; index<insertData.size(); index++) {
-		bst.insert(insertData[index]);
-	}
-	
 	// Start timer
 	t.begin_timer();
 	
@@ -163,5 +147,5 @@ int main () {
 	averageTime = sumTime/NUM_RUN;
     
     cout << "Average time taken to find for BST: " << averageTime
-    << " nanoseconds" << endl; 
+    << " nanoseconds" << endl;	
 }
