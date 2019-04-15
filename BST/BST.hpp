@@ -60,7 +60,8 @@ class BST {
 	   *  this BST.
        */
       virtual bool insert(const Data& item) {
-         return false;
+          
+		 return false;
       }
 
 
@@ -70,14 +71,32 @@ class BST {
        *  the last node in the BST if not found.
        */
       virtual iterator find(const Data& item) const {
-         return 0; 
+         // Get current node
+		 BSTNode<Data> * curr = this.root;
+		 while (curr != nullptr) {
+		     // Check if element is equal
+			 if (curr->data == item) {
+			     return BST::iterator(curr);
+			 }
+			 // Traverse left, right or back
+			 if (curr->left != nullptr) {
+			     curr = curr->left;
+				 continue;
+			 }
+			 if (curr->right != nullptr) {
+				 curr = curr->right;
+				 continue;
+			 }
+			 curr = curr->parent;
+		 }
+		 return iterator.end(); 
       }
 
 
       /** @return the number of items currently in the BST.
        */
       unsigned int size() const {
-         return 0;
+         return isize;
       }
 
       /** @return the height of the BST.
@@ -85,7 +104,7 @@ class BST {
        * with only one node is 0.
        */
       unsigned int height() const {
-         return 0;
+         return iheight;
       }
 
 
@@ -111,18 +130,26 @@ class BST {
 
       /** Inorder traverse BST, print out the data of each node in ascending 
 	   * order. 
-	   *
-	   * Implementing inorder and deleteAll base on the pseudo code is an
-	   * easy way to get started.
-       * 
-	   * Pseudo Code:
-       * if current node is null: return;
-       * recursively traverse left sub-tree
-       * print current node data
-       * recursively traverse right sub-tree
-       * 
+       * @param n, The starting node to print in order 
        */
-      void inorder() const {
+      void inorder(BSTNode<Data> * n) const {
+		// Set current node
+		BSTNode<Data> * curr = n;
+
+		// if curr is null, return
+		if (curr == nullptr) 
+			return;
+		
+		// Traverse left subtree
+		if (curr->left) 
+			inorder(curr->left);
+		
+        // Print data
+		cout << curr->data << endl;
+
+		// Traverse right subtree
+		if (curr->right)
+			inorder(curr->right);
       }
 
 
@@ -133,20 +160,36 @@ class BST {
 	   * @return returns the node representing first element
        */ 
       static BSTNode<Data>* first(BSTNode<Data>* root) {
-         return 0;
+         // Get minimum element, AKA leftmost element
+		 BSTNode<Data> * curr = root;
+		 while ((curr->left)!= nullptr) {
+		     curr = curr->left;
+		 }
+		 return curr;
       }
 
       /** Do a postorder traversal, deleting nodes
        *  @param n The current node
        */
       static void deleteAll(BSTNode<Data>* n) {
-         /* Pseudo Code:
-            if current node is null: return;
-            recursively delete left sub-tree
-            recursively delete right sub-tree
-            delete current node
-            */
-      }
+		// Set current node
+		BSTNode<Data> * curr = n;
+
+		// if curr is null, return
+		if (curr == nullptr) 
+			return;
+		
+		// Traverse left subtree
+		if (curr->left) 
+			deleteAll(curr->left);
+		
+        // Traverse right subtree
+		if (curr->right)
+			deleteAll(curr->right);
+        
+		// Delete current node
+		delete curr;
+	  }
 
 };
 

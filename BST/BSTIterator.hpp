@@ -1,3 +1,14 @@
+/* Description: This program defines an Iterator which can be used
+ * to traverse a BST. The iterator can point to the current tree
+ * node, increment forwards and backwards, and retrieve the data in
+ * the node.
+ *
+ * Name: Luhao Wang
+ * Email: luw055@ucsd.edu
+ * Date: April 10, 2019
+ * Sources: Piazza
+ */
+
 #ifndef BSTITERATOR_HPP
 #define BSTITERATOR_HPP
 #include "BSTNode.hpp"
@@ -6,10 +17,15 @@
 using namespace std;
 
 template<typename Data>
+/* Iterator class defines methods to traverse, equate, and
+ * dereference BST nodes. It also contains a pointer to the node
+ * that it is currently on. 
+ */
+
 class BSTIterator : public iterator<input_iterator_tag,Data> {
 
    private:
-
+	  // The node this iterator is pointing to
       BSTNode<Data>* curr;
 
    public:
@@ -19,18 +35,24 @@ class BSTIterator : public iterator<input_iterator_tag,Data> {
        */
       BSTIterator(BSTNode<Data>* curr): curr(curr) { }
 
-      /** Dereference operator. */
+      /** Dereference operator.
+	   *  @returns the data of the node it is pointing to
+	   */
       Data operator*() const {
          return curr->data;
       }
 
-      /** Pre-increment operator. */
+      /** Pre-increment operator.
+	   *  @returns next smallest node in the tree in order
+	   */
       BSTIterator<Data>& operator++() {
          curr = curr->successor();
          return *this;
       }
 
-      /** Post-increment operator. */
+      /** Post-increment operator.
+	   *  @returns previous node in the tree in order
+	   */
       BSTIterator<Data> operator++(int) {
          BSTIterator before = BSTIterator(curr);
          ++(*this);
@@ -38,22 +60,27 @@ class BSTIterator : public iterator<input_iterator_tag,Data> {
       }
 
       /** Equality test operator.
-       * Notice that other is a reference and not a pointer, thus it
-       * cannot be null. Return true if other is equal to the calling 
-       * object. Two iterators are equal if they point to the same 
-       * BSTNode in the same BST.
-       * TODO */
-      bool operator==(BSTIterator<Data> const & other) const {
+	   *  Checks if two iterators are pointing to the same node
+	   *  @returns true if they are 
+	   */
+	  bool operator==(BSTIterator<Data> const & other) const {
+		 // Check if other equals this
+		 if (other == (*this)) 
+			return true;
 
          return false;
-
       }
-
-      /** Inequality test operator. TODO */
+ 
+      /** Equality test operator.
+	   *  Checks if two iterators are pointing to the same node
+	   *  @returns true if they are NOT
+	   */
       bool operator!=(BSTIterator<Data> const & other) const {
+		 // Check if other equals this
+		 if (other == (*this))
+			return false;
 
-         return false;
-
+         return true;
       }
 
 };
