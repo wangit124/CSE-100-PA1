@@ -18,11 +18,6 @@ int main() {
 	/*test*/
 	vector<int> v;
 	v.push_back(3);
-	v.push_back(4);
-	v.push_back(1);
-	v.push_back(100);
-	v.push_back(-33);
-
 	/* Create an instance of BST holding int */
 	BST<int> b;
 
@@ -40,7 +35,6 @@ int main() {
 		}
 	}
 
-
 	/* Test size. */
 
 	cout << "Size is: " << b.size() << endl;
@@ -52,7 +46,7 @@ int main() {
 	/* Test height */
 
 	cout << "Height is: " << b.height() << endl;
-	if(b.height() != 2) {
+	if(b.height() != 0) {
 		cout << "... which is incorrect." << endl;
 		return -1;
 	}

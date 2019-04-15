@@ -65,14 +65,18 @@ class BSTNode {
 				// Loop through and find successor
 				while(currNode) {
 					
-					// Check if root, if so, return not found
-					if (!(currNode->parent)) {
+					BSTNode<Data> * currParent = currNode->parent;
+				    // If root, return null
+					if (!currParent) {
 						return 0;
 					}
-
-					BSTNode<Data> * currParent = currNode->parent;
-				    if (currNode == currParent->left) {
+				    // If current node is left child of parent, return parent
+					if ((currNode->data) < (currParent->data)) {
 						return currParent;
+					}
+					// Otherwise climb up to next parent
+					else {
+						currNode = currParent;
 					}
 				}
 
