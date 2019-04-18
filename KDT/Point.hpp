@@ -1,16 +1,32 @@
+/* Description: A class representing a single item in the tree. 
+ * It contains the name of the node as well as point data
+ * about it including the value of each of its parameters
+ * that will be used for sorting depending on the data
+ * type.
+ *
+ * Name: Luhao Wang
+ * Email: luw055@ucsd.edu
+ * Date: April 18, 2019
+ * Sources: Piazza
+ */
 
 #ifndef Point_hpp
 #define Point_hpp
 
 #include <math.h>    // pow, abs
 #include <vector>    // vector<typename>
-#include <string>
+#include <string>	 
 
 using namespace std;
 
 #define DELTA 0.00005
+#define SQR 2
 
-/** The data point with given features and label **/
+/** A single KDT tree data point with given features and label.
+ *  This class also describes a method to calculate the 
+ *  Euclidean distance between two Nodes
+ */
+
 class Point {
 public:
     
@@ -22,13 +38,25 @@ public:
     /** Default constructor */
     Point() {}
     
-    /** TODO: Constructor that defines a data point with features and certain 
-    label */
-    Point(vector<double> features, int label) {}
+    /** Constructor that defines a data point with features and certain label, 
+	 * takes in parameters features and label, then initializes point object
+	 */
+    Point(vector<double> features, int label):features(features), label(label){}
+	
+    /** Set the square distance to current query point 
+	 * @param Takes in the point to find distance of*/
     
-    /** Set the square distance to current query point */
-    void setSquareDistToQuery(const Point& queryPoint) {
-        // TODO
+	void setSquareDistToQuery(const Point& queryPoint) {
+		// Calculate square distance
+		int labelSqrd = label - queryPoint.label;
+		int numDimSqrd = numDim - queryPoint.numDim;
+		
+		// Get squares
+		labelSqrd = pow(labelSqrd, SQR);
+		numDimSqrd = pow(numDimSqrd, SQR);
+
+		// set sum of squares
+		squareDistToQuery = labelSqrd + numDimSqrd;
     }
     
     /** Equals operator */
