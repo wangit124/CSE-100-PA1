@@ -30,10 +30,10 @@ using namespace std;
 class Point {
 public:
     
-    vector<double> features;
-    int label;
-    int numDim;
-    double squareDistToQuery;
+    vector<double> features; // Array of feature values used in ordering
+    int label; // item number and index
+    int numDim; // Number of dimensions per node
+    double squareDistToQuery; // 
     
     /** Default constructor */
     Point() {}
@@ -48,15 +48,15 @@ public:
     
 	void setSquareDistToQuery(const Point& queryPoint) {
 		// Calculate square distance
-		int labelSqrd = label - queryPoint.label;
-		int numDimSqrd = numDim - queryPoint.numDim;
-		
-		// Get squares
-		labelSqrd = pow(labelSqrd, SQR);
-		numDimSqrd = pow(numDimSqrd, SQR);
-
+		int currDist = 0;
+		int totalSqrDist = 0;
+		for (int i=0; i<numDim; i++) {
+			// Calculate distance of current parameter
+			currDist = features[i] - queryPoint.features[i];
+			totalSqrDist += pow(currDist, SQR);
+		}
 		// set sum of squares
-		squareDistToQuery = labelSqrd + numDimSqrd;
+		squareDistToQuery = totalSqrDist;
     }
     
     /** Equals operator */
