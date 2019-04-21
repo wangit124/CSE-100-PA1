@@ -52,7 +52,8 @@ vector<Point> vector_from_file(string filename) {
 
 int run_tests(vector<Point>& kdt_build_points,
               vector<Point>& test_cases, vector<Point>& solutions) {
-
+	
+	kdt_build_points.erase(kdt_build_points.begin()+kdt_build_points.size()-1);
   if (test_cases.size() != solutions.size()) {
     cerr << "Number of test cases and solutions must be equivalent" << endl;
     exit(-1);
@@ -62,6 +63,15 @@ int run_tests(vector<Point>& kdt_build_points,
 
   KDT* tree = new KDT();
   tree->build(kdt_build_points);
+
+ // tree->printAll(tree->getRoot());
+	
+ // cout <<"hi"<<endl;
+ // vector<Point> list = tree->returnList();
+
+ // for (unsigned int i=0; i< list.size(); i++) {
+//	cout << list[i] << endl;
+//  }
 
   if ( (unsigned int)tree->size() != (unsigned int)kdt_build_points.size()) {
     cerr << "Test failed for tree size" << endl;
@@ -80,12 +90,16 @@ int run_tests(vector<Point>& kdt_build_points,
     error_count++;
   }
 
+
   vector<Point>::iterator test_it = test_cases.begin();
   vector<Point>::iterator solution_it = solutions.begin();
   for (; test_it != test_cases.end() && solution_it != solutions.end();
        test_it++, solution_it++) {
     auto result = tree->findKNearestNeighbors(*test_it, 1);
-      
+   for (unsigned int i=0; i<result.size(); i++) { 
+	cout << result[i] << endl;
+	cout << endl;
+}
     if (result.size() == 0 || result[0] != *solution_it) {
       cerr << "Test failed for find of point " << *test_it << endl;
       cerr << "\tExpected: " << *solution_it << endl;
@@ -97,7 +111,16 @@ int run_tests(vector<Point>& kdt_build_points,
       }
       error_count++;
     }
-  }
+  /*else {
+	cout << "test passed" << endl;
+ cerr << "\tExpected: " << *solution_it << endl;
+      if (result.size() == 0) {
+        cerr << "\tActual: " << "(none found)" << endl;
+      } 
+      else {
+        cerr << "\tActual: " << result[0] << endl;
+      }*/
+}  
 
   delete tree;
   return error_count;
@@ -111,16 +134,16 @@ int custom_tests() {
   int error_count = 0;
 
   vector<Point> test_cases;
-  test_cases.push_back(Point({3, 9}, 1));
-  test_cases.push_back(Point({4.5, 5}, 2));
-  test_cases.push_back(Point({100, 100}, 3));
-  test_cases.push_back(Point({6, 13}, 4));
+  test_cases.push_back(Point({1,4}, 1));
+  //test_cases.push_back(Point({4.5, 5}, 2));
+  //test_cases.push_back(Point({100, 100}, 3));
+  //test_cases.push_back(Point({6, 13}, 4));
 
   vector<Point> solutions;
   solutions.push_back(Point({6, 9}, 5));
-  solutions.push_back(Point({4, 5}, 1));
-  solutions.push_back(Point({-1, 50}, 3));
-  solutions.push_back(Point({5, 12}, 4));
+  //solutions.push_back(Point({4, 5}, 1));
+  //solutions.push_back(Point({-1, 50}, 3));
+  //solutions.push_back(Point({5, 12}, 4));
 
   error_count += run_tests(points, test_cases, solutions);
   return error_count;
@@ -133,6 +156,9 @@ int exhaustive_tests() {
   int error_count = 0;
 
   vector<Point> points = vector_from_file("./test/test_points.txt");
+  //for (unsigned int i=0; i<points.size(); i++) {
+//	cout << points[i].features[0] << endl;
+ // }
   vector<Point> test_cases = vector_from_file("./test/queryPoints.txt");
   vector<Point> solutions = vector_from_file("./test/solutionPoints.txt");
 

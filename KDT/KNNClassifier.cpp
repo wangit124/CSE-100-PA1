@@ -1,3 +1,13 @@
+/* description: this program describes a program that
+ * can store and determine the most frequent data point
+ * in the nearest neighbors of a given data point
+ *
+ * name: luhao wang
+ * email: luw055@ucsd.edu
+ * date: april 18, 2019
+ * sources: piazza
+ */
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -60,8 +70,38 @@ vector<Point> readData(const char * fileName, bool withLabel) {
 
 /** Find the most frequent label in the given set of points */
 int mostFreqLabel(vector<Point>& points) {
-    // TODO
-    return 0;
+	// Store max frequency
+	int max = -1;
+	vector<int> frequencies;
+	int minLabel = 0;
+
+	// Iterate through array and count frequencies
+	for (unsigned int i=0; i<frequencies.size(); i++) {
+		int count = 0;
+		Point currPoint = points[i];
+		for (unsigned int j=0; j<points.size(); j++) {
+			// If labels are equal, increment count
+			if (currPoint.label == points[j].label) {
+				count++;
+			}
+		}
+		// update max
+		if (count > max) {
+			max = count;
+			minLabel = currPoint.label+1;
+		}
+		frequencies.push_back(count);
+	}
+	
+	// Find minimum label that shares max frequency
+	for (unsigned int j=0; j<frequencies.size(); j++) {
+		if (max == frequencies[j]) {
+			if (points[j].label < minLabel) {
+				minLabel = points[j].label;
+			}
+		}
+	}
+    return minLabel;
 }
 
 /** Check if a given data file is valid. Note that his does not 

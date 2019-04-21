@@ -41,15 +41,17 @@ public:
     /** Constructor that defines a data point with features and certain label, 
 	 * takes in parameters features and label, then initializes point object
 	 */
-    Point(vector<double> features, int label):features(features), label(label){}
+    Point(vector<double> features, int label):features(features), label(label){
+		numDim = features.size();
+	}
 	
     /** Set the square distance to current query point 
 	 * @param Takes in the point to find distance of*/
     
 	void setSquareDistToQuery(const Point& queryPoint) {
 		// Calculate square distance
-		int currDist = 0;
-		int totalSqrDist = 0;
+		double currDist = 0;
+		double totalSqrDist = 0;
 		for (int i=0; i<numDim; i++) {
 			// Calculate distance of current parameter
 			currDist = features[i] - queryPoint.features[i];
@@ -99,5 +101,14 @@ struct CompareValueAt {
         return p1.features[dimension] < p2.features[dimension];
     }
 };
+
+/** The comparator used in sorting points based on values on
+    certain dimension (priority Queue)*/
+struct CompareValuePQ {
+    bool operator() (const Point & p1, const Point & p2) {
+        return p1.squareDistToQuery < p2.squareDistToQuery;
+    }
+};
+
 
 #endif /* Point_hpp */
