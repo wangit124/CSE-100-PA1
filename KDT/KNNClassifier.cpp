@@ -14,10 +14,17 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <string.h>
+#include <climits>
 
 #include "KDT.hpp"
 #include "Point.hpp"
 #include "BruteForceKNN.hpp"
+
+#define KARG 1
+#define TRAINARG 2
+#define INPUTARG 3
+#define FLAG 4
 
 using namespace std;
 
@@ -68,44 +75,50 @@ vector<Point> readData(const char * fileName, bool withLabel) {
     return result;
 }
 
-/** Find the most frequent label in the given set of points */
+/** Find the most frequent label in the given set of points 
+  * @param points to search for most frequent label
+  * @return the most frequent label
+  */
 int mostFreqLabel(vector<Point>& points) {
-	// Store max frequency
-	int max = -1;
-	vector<int> frequencies;
-	int minLabel = 0;
+	// Sort the array
+	sort(points.begin(), points.end(), CompareLabel());
 
-	// Iterate through array and count frequencies
-	for (unsigned int i=0; i<frequencies.size(); i++) {
-		int count = 0;
-		Point currPoint = points[i];
-		for (unsigned int j=0; j<points.size(); j++) {
-			// If labels are equal, increment count
-			if (currPoint.label == points[j].label) {
-				count++;
-			}
-		}
-		// update max
-		if (count > max) {
-			max = count;
-			minLabel = currPoint.label+1;
-		}
-		frequencies.push_back(count);
-	}
+	// Store max frequency
+	int maxCount = 1;
 	
-	// Find minimum label that shares max frequency
-	for (unsigned int j=0; j<frequencies.size(); j++) {
-		if (max == frequencies[j]) {
-			if (points[j].label < minLabel) {
-				minLabel = points[j].label;
+	// Store current point
+	Point currPoint = points[0];
+
+	// Store current count
+	int currCount = 1;
+
+	// Iterate through array and store labels
+	for (unsigned int i=1; i<points.size(); i++) {
+		if (points[i].label == points[i-1].label) {
+			currCount++;
+		}
+		else {
+			if (currCount > maxCount) {
+				maxCount = currCount;
+				currPoint = points[i-1];
 			}
+			currCount = 1;
 		}
 	}
-    return minLabel;
+
+	// If last element is most frequent
+	if (currCount > maxCount) {
+		maxCount = currCount;
+		currPoint = points[points.size()-1];
+	}
+
+    return currPoint.label;
 }
 
 /** Check if a given data file is valid. Note that his does not 
   * check if the data file is in correct format
+  * @param the file to check for validity
+  * @return true if file is valid
   */
 bool fileValid(const char * fileName) {
     
@@ -134,8 +147,108 @@ bool fileValid(const char * fileName) {
 
 int main(int argc, const char * argv[]) {
     
-    // TODO
-    
+    // Parse command line arguments
+	int k = atoi(argv[KARG]);
+
+	const char * trainingFile = argv[TRAINARG];
+
+	const char * inputFile = argv[INPUTARG];
+	
+	const char * flag = argv[FLAG];
+
+	const char * valid = "validation";
+
+	const char * test = "test";
+
+	// Check if files are valid
+	if (!fileValid(trainingFile) || !fileValid(inputFile)) {
+		return 0;
+	}
+	
+	// Create a KD tree
+	KDT* tree = new KDT();
+	
+	// If argument 4 is "validation"
+	if (!strcmp(flag, valid)) {
+		// Count up label mismatches
+		int mismatches = 0;
+		
+		// Parse files and get points
+		vector <Point> buildPoint = readData(trainingFile, true);
+		vector <Point> queryPoint = readData(inputFile, true);
+		
+		// Array to store knearest neighbors
+		vector <Point> kNearest;
+
+		// Build KDTree		
+		tree->build(buildPoint);
+		
+		// For each query point, calculate the most frequent label
+		for (unsigned int i=0; i<queryPoint.size(); i++) {
+			kNearest = tree->findKNearestNeighbors(queryPoint[i], k);
+		
+			// Calculate most frequent
+			int freqLabel = mostFreqLabel(kNearest);
+			// Count mismatch
+			if (freqLabel != queryPoint[i].label) {
+				mismatches++;
+			}
+		}
+	
+		// Get validation error
+		double validErr = (float)mismatches / queryPoint.size();
+
+		// Write data to a file
+		string writeData = "K: " + to_string(k) + ", Validation Error: " 
+							+ to_string(validErr) + "\n";
+
+		// Open file to write to 
+		ofstream outputData;
+		outputData.open("result.txt", ios_base::app);
+		outputData << writeData;
+		outputData.close();
+		
+		return 0;
+	}
+	else if (!strcmp(flag, test)) {
+		// Open file to write to 
+		ofstream outputData;
+		outputData.open("result.txt", ios_base::app);
+		
+		// Parse files and get points
+		vector <Point> buildPoint = readData(trainingFile, false);
+		vector <Point> queryPoint = readData(inputFile, false);
+	
+		// Array to store knearest neighbors
+		vector <Point> kNearest;
+
+		// Build KDTree		
+		tree->build(buildPoint);
+		
+		// For each query point, calculate the most frequent label
+		for (unsigned int i=0; i<queryPoint.size(); i++) {
+			kNearest = tree->findKNearestNeighbors(queryPoint[i], k);
+			
+			// Calculate most frequent
+			int freqLabel = mostFreqLabel(kNearest);
+
+			// Write data to a file
+			string writeData = to_string(freqLabel) + "\n";
+			outputData << writeData;			
+		}
+
+		// close stream
+		outputData.close();
+	}
+	// If fourth argument invalid, return 0
+	else {
+		// Delete tree
+		delete tree;		
+		return 0;
+	}
+
+	// Delete tree
+	delete tree;
     return 0;
 }
 

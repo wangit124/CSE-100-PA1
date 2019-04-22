@@ -1,3 +1,13 @@
+/* description: this program can be used to determine the runtime of 
+ * various data entry and search methods, including KD Tree,
+ * and Bruteforce methods. 
+ *
+ * name: luhao wang
+ * email: luw055@ucsd.edu
+ * date: april 21, 2019
+ * sources: piazza
+ */
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -31,7 +41,6 @@ vector<Point> buildRandPoints(unsigned int numPoints, unsigned int numDim) {
 
 int main(int argc, const char * argv[]) {
     
-    // TODO: value to change to do experiments
     const int NUM_TRA = 10000; // number of random training data
     const int NUM_TEST = 10000; // number of random validation data
     const int NUM_DIM = 2;
@@ -56,8 +65,7 @@ int main(int argc, const char * argv[]) {
     cout << "Training data size: " << NUM_TRA << "; Test data size: "
     << NUM_TEST << "; Dimension size: " << NUM_DIM << "; K: " << K <<
     "; Time taken for KD tree to find KNN: " << sumTime <<
-    " milliseconds" << endl;
-    
+    " nanoseconds" << endl;
     
     sumTime = 0;
     t.begin_timer();
@@ -68,7 +76,7 @@ int main(int argc, const char * argv[]) {
     cout << "Training data size: " << NUM_TRA << "; Test data size: "
     << NUM_TEST << "; Dimension size: " << NUM_DIM << "; K: " << K <<
     "; Time taken for brute force approach to find KNN: " << sumTime <<
-    " milliseconds" << endl;
+    " nanoseconds" << endl;
     
     return 0;
 }

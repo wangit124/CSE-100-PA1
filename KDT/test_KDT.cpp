@@ -96,11 +96,11 @@ int run_tests(vector<Point>& kdt_build_points,
   for (; test_it != test_cases.end() && solution_it != solutions.end();
        test_it++, solution_it++) {
     auto result = tree->findKNearestNeighbors(*test_it, 1);
-   for (unsigned int i=0; i<result.size(); i++) { 
-	cout << result[i] << endl;
-	cout << endl;
-}
-    if (result.size() == 0 || result[0] != *solution_it) {
+ //  for (unsigned int i=0; i<result.size(); i++) { 
+//	cout << result[i] << endl;
+//	cout << endl;
+//}
+    if (result.size() == 0 || result[result.size()-1] != *solution_it) {
       cerr << "Test failed for find of point " << *test_it << endl;
       cerr << "\tExpected: " << *solution_it << endl;
       if (result.size() == 0) {
@@ -140,7 +140,7 @@ int custom_tests() {
   //test_cases.push_back(Point({6, 13}, 4));
 
   vector<Point> solutions;
-  solutions.push_back(Point({6, 9}, 5));
+  solutions.push_back(Point({2, 3}, 5));
   //solutions.push_back(Point({4, 5}, 1));
   //solutions.push_back(Point({-1, 50}, 3));
   //solutions.push_back(Point({5, 12}, 4));

@@ -74,7 +74,9 @@ public:
 		deleteAll(root);
     }
 
-    /** Build the KD tree from the given vector of Point references */
+    /** Build the KD tree from the given vector of Point references
+	 *	@params takes in the points array to build the tree from  
+	 */
     void build(vector<Point>& points) {
 		// If array is empty, return
 		if (points.size() == 0) {
@@ -90,11 +92,14 @@ public:
 		isize++;
 	}
    	 
-    /** Find k nearest neighbors of the given query point */
+    /** Find k nearest neighbors of the given query point 
+	 *  Takes in query points and calls the helper function 
+	 *  to traverse the tree
+	 */
     vector<Point> findKNearestNeighbors(Point queryPoint, unsigned int k) {
 		// Define vector to find nearest k
 		vector <Point> kNearest;
-		if (isize == 0) {	
+		if (isize == 0 || k <= 0) {	
 			return kNearest;
 		}
 
@@ -133,7 +138,11 @@ public:
    
 private:
     
-    /** Helper method to recursively build the subtree of KD tree. */
+    /** Helper method to recursively build the subtree of KD tree. 
+	 *	@Params points to build tree from, start and end indicies, 
+	 *	dimension, and height.
+	 *	@Returns the median node each iteration, up to root
+	 */
     KDNode * buildSubtree(vector<Point>& points, unsigned int start, 
                     unsigned int end, unsigned int d, unsigned int height) {
 		
@@ -154,8 +163,16 @@ private:
 			// Make new nodes for the elements
 			KDNode * right = new KDNode(points[start+1]);
 			right->left = new KDNode(points[start]);
+	
+			// Update height and size
 			isize++;
-			iheight++;
+			height++;
+				
+			// Assign height and size of tree
+			if (height > iheight) {
+				iheight = height;
+			}
+		
 			return right;
 		}
 		
@@ -193,7 +210,9 @@ private:
        	return median;
     }
     
-    /** Helper method to recursively find the K nearest neighbors */
+    /** Helper method to recursively find the K nearest neighbors
+	 * @params, current node, the query, current dimension
+	 */
     void findKNNHelper(KDNode *node, const Point & queryPoint, unsigned int d) {
 		// Get current point of node
 		Point currPoint = node->point;
@@ -214,12 +233,46 @@ private:
 			if (node->left) {
 				findKNNHelper(node->left, queryPoint, d+1);
 			}
+
+			// If current node is closer, update 
+			//updateKNN(currPoint);
+			
+			// Check if right exists
+			if (node->right) {
+				// Check for other potential points
+				double distToRight = currPoint.features[currDim] -
+									queryPoint.features[currDim];
+
+				distToRight = pow(distToRight, HALF);
+
+				// Check if lesser than threshold
+				if (distToRight<threshold || abs(distToRight-threshold)<=DELTA){
+					findKNNHelper(node->right, queryPoint, d+1);
+				}
+			}
 		}
 		else {
 			// Check if needs to search right
 			if (node->right) {
 				findKNNHelper(node->right, queryPoint, d+1);
 			}		
+			
+			// If current node is closer, update 
+			//updateKNN(currPoint);
+			
+			// Check if left exists
+			if (node->left) {
+				// Check for other potential points
+				double distToLeft = currPoint.features[currDim] -
+									queryPoint.features[currDim];
+
+				distToLeft = pow(distToLeft, HALF);
+
+				// Check if lesser than threshold
+				if (distToLeft<threshold || abs(distToLeft-threshold) <= DELTA){
+					findKNNHelper(node->left, queryPoint, d+1);
+				}
+			}
 		}
 	
 		// Update nearest k
@@ -228,6 +281,7 @@ private:
    	
 	/** Helper method to update your data structure storing KNN using 
      *  the given point.
+	 *  @param Takes in a point to update and push onto queue
      */
     void updateKNN(Point & point) {
 		
@@ -264,7 +318,9 @@ private:
 		} 
 	}
  
-	/* Delete method to deallocate all memory from the tree*/
+	/* Delete method to deallocate all memory from the tree
+	 * @param takes in a node to start at
+	 */
 	void deleteAll(KDNode * root) {
 		// Set current node
 		KDNode * curr = root;

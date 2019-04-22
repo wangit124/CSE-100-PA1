@@ -110,5 +110,11 @@ struct CompareValuePQ {
     }
 };
 
+/** Comparator used to find most frequent label*/
+struct CompareLabel {
+    bool operator() (const Point & p1, const Point & p2) {
+        return p1.label < p2.label;
+    }
+};
 
 #endif /* Point_hpp */

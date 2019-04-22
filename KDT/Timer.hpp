@@ -1,4 +1,3 @@
-
 #ifndef Timer_hpp
 #define Timer_hpp
 
