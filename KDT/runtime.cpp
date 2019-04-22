@@ -1,4 +1,4 @@
-/* description: this program can be used to determine the runtime of 
+/* Description: this program can be used to determine the runtime of 
  * various data entry and search methods, including KD Tree,
  * and Bruteforce methods. 
  *
@@ -43,8 +43,8 @@ int main(int argc, const char * argv[]) {
     
     const int NUM_TRA = 10000; // number of random training data
     const int NUM_TEST = 10000; // number of random validation data
-    const int NUM_DIM = 2;
-    const int K = 1;
+    const int NUM_DIM = 14;
+    const int K = 30;
     
     KDT kdtree;
     BruteForceKNN bfknn;

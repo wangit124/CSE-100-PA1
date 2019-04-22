@@ -196,16 +196,17 @@ int main(int argc, const char * argv[]) {
 		}
 	
 		// Get validation error
-		double validErr = (float)mismatches / queryPoint.size();
+		double validErr = mismatches / (double)queryPoint.size();
+
 
 		// Write data to a file
-		string writeData = "K: " + to_string(k) + ", Validation Error: " 
-							+ to_string(validErr) + "\n";
+	//	string writeData = "K: " + to_string(k) + ", Validation Error: " 
+	//						+ to_string(validErr) + "\n";
 
 		// Open file to write to 
 		ofstream outputData;
 		outputData.open("result.txt", ios_base::app);
-		outputData << writeData;
+		outputData << "K: " << k << ", Validation Error: " << validErr << "\n";
 		outputData.close();
 		
 		return 0;

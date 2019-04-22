@@ -1,0 +1,102 @@
+/* Description: Program runtime results, comparing BST
+ * and BSA insert, find runtimes, compare KDT and BruteForce, KNNClassifier
+ * Name: Luhao Wang
+ * Email: luw055@ucsd.edu
+ * Date: April 15, 2019
+ * Sources: None
+ */
+
+-----RUNTIMES------
+
+[luw055@ieng6-201]:BST:498$ ./benchmark_bst
+	
+	Insert benchmarking for BSA and BST: 
+	Number of data to insert: 30000
+	Average time taken to insert for BSA: 21530515 nanoseconds
+	Average time taken to insert for BST: 11442917 nanoseconds
+
+	Find benchmarking for BSA and BST: 
+	Number of data in BSA/BST: 30000
+	Number of data to find: 30000
+	Average time taken to find for BSA: 12900631 nanoseconds
+	Average time taken to find for BST: 12167227 nanoseconds
+
+----QUESTIONS------
+
+1. Overall, BST was faster to insert() because it
+   doesn't require traversing and inserting the element
+   then resizing the entire array.
+
+2. Overall, BST is slightly faster for find(), however
+   these values are much closer because BST and BSA 
+   are implementing relatively the same method and not
+   having to traverse the array afterwards using an
+   iterator, or resize the array.
+
+3. The significant difference lies in the fact that the
+   BSA needs to dynamically resize the array everytime it
+   inserts an element. In addition to the O(log n) search, it
+   would take additional O(n) time to resize the
+   array, furthermore, BSA needs to traverse to the
+   desired index with an iterator after the search. 
+
+4. The following are validation error results from KNNClassifier: 
+
+	K: 5, Validation Error: 0.098
+	K: 10, Validation Error: 0.102
+	K: 15, Validation Error: 0.108
+	K: 20, Validation Error: 0.109
+	K: 25, Validation Error: 0.123
+	K: 30, Validation Error: 0.13
+
+	Essentially, as k increases from 5 to 30 in increments of 5, the validation
+	error increases from 0.098 to 0.13 in a steady to moderate rate. 
+
+5. If we are just examining the range 5 to 30, then the smallest validation 
+   error occurs when k = 5, Validation Error = 0.098. However, if we examine
+   past this range, it is possible than k = 1 has the smallest error, which
+   I tested to be 0.082.
+
+6. Runtime CPP results for NUM_TRA=10000, NUM_TEST=10000, NUM_DIM=2, k=1:
+
+	Training data size: 10000; Test data size: 10000; Dimension size: 2; K: 1; 
+	Time taken for KD tree to find KNN: 247112076 nanoseconds
+	
+	Training data size: 10000; Test data size: 10000; Dimension size: 2; K: 1; 
+	Time taken for brute force approach to find KNN: 94310301406
+	nanoseconds
+
+	Findings: KNN is roughly 500 times faster than BruteForceKNN.
+
+7. Training data size: 10000; Test data size: 10000; Dimension size: 17; K: 1; 
+   Time taken for KD tree to find KNN: 106210937920 nanoseconds 
+   
+   Training data size: 10000; Test data size: 10000; Dimension size: 17; K: 1; 
+   Time taken for brute force approach to find KNN: 102922350456 nanoseconds 
+   
+   Training data size: 10000; Test data size: 10000; Dimension size: 14; K: 1; 
+   Time taken for KD tree to find KNN: 94276435778 nanoseconds
+
+   Training data size: 10000; Test data size: 10000; Dimension size: 14; K: 1; 
+   Time taken for brute force approach to find KNN: 94470584796 nanoseconds
+
+   Findings: For Training and data size 10000, searching for 1 nearest neighbor.
+			 Brute Force algorithm will be faster than KD tree if the dimension
+			 size is roughly > 15. Basically, KD tree is often limited by the
+			 the number of dimensions, too many dimension leads to slow search
+			 and insert. 
+
+8. Training data size: 10000; Test data size: 10000; Dimension size: 14; K: 30; 
+   Time taken for KD tree to find KNN: 160164484276 nanoseconds
+   
+   Training data size: 10000; Test data size: 10000; Dimension size: 14; K: 30; 
+   Time taken for brute force approach to find KNN: 145826202193 nanoseconds
+
+   Findings: Basically, I kept the dimension size as 14 and increased the 
+   number of nearest neighbors to search for to 30. What I found was that
+   the runtime of each method increased greatly compared to k = 1, however, 
+   BruteForce was faster than KD tree. This means that increasing the number
+   of nearest neighbors to search for also affects the runtime of KD more than 
+   it does for BruteForce. This may be because if the value of k were to become
+   the size of the data set, then the solution set would be the original set of
+   points, all of them. In that case, we wouldn't even need to build a KD tree.
